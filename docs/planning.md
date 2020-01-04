@@ -33,5 +33,5 @@
 
 1. Python
 2. Flask (web framework)
-3. MongoDB (database)
+3. Riak (database)
 4. GUnicorn (app server)
