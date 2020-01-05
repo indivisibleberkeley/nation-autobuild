@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Map Roles to Categories</h1>
+  <p>For each category of volunteer role below, pick which roles in the
+      CSV correspond to it.
+  </p>
+  <form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.signin_roles.label }} <br/>
+      {{ form.signin_roles() }}
+    </p>
+    <p>
+      {{ form.delivery_roles.label }} <br/>
+      {{ form.delivery_roles() }}
+    </p>
+    <p>
+      {{ form.snack_roles.label }} <br/>
+      {{ form.snack_roles() }}
+    </p>
+    <p>
+      {{ form.lunch_roles.label }} <br/>
+      {{ form.lunch_roles() }}
+    </p>
+    <p>{{ form.submit() }}</p>
+  </form>
+{% endblock %}

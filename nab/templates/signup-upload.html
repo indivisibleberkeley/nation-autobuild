@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Upload Volunteer Signup CSV</h1>
+  <p>Export a CSV file from the SignUpGenius volunteer signup form and upload
+     it here. <em>TODO: add instructions on how to get CSV.</em></p>
+  <form action="" method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.csvfile.label }}<br/>
+      {{ form.csvfile() }}<br/>
+      {% for error in form.csvfile.errors %}
+        [{{ error }}]
+      {% endfor %}
+    </p>
+    <p>{{ form.submit() }}</p>
+  </form>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Select Columns</h1>
+  <p>Please select which columns in the CSV file correspond to each of the following fields.</p>
+  <form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+    {{ form.date_col.label }}: {{ form.date_col() }}
+    </p>
+    {% for error in form.date_col.errors %}
+      <p>[{{ error }}]</p>
+    {% endfor %}
+    <p>
+    {{ form.email_col.label }}: {{ form.email_col() }}
+    </p>
+    {% for error in form.email_col.errors %}
+      <p>[{{ error }}]</p>
+    {% endfor %}
+    <p>
+    {{ form.role_col.label }}: {{ form.role_col() }}
+    </p>
+    {% for error in form.role_col.errors %}
+      <p>[{{ error }}]</p>
+    {% endfor %}
+    <p>{{ form.submit() }}</p>
+  </form>
+{% endblock %}
