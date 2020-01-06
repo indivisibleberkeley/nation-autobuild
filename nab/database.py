@@ -3,6 +3,7 @@ import uuid
 import io
 import csv
 import json
+import re
 from datetime import datetime
 from collections import defaultdict
 
@@ -14,6 +15,13 @@ def date_from_string(datestr):
     parts = datestr.split(" ")
     notz_str = " ".join(parts[:-1])
     return datetime.strptime(notz_str, "%m/%d/%Y %I:%M %p")
+
+UUID_RE = re.compile("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+
+def parse_uuid(uuidstr):
+    if not UUID_RE.match(uuidstr):
+        return None
+    return uuid.UUID(uuidstr)
 
 class NationAutoBuildDatabase(object):
     def __init__(self, config):
@@ -56,23 +64,33 @@ class NationAutoBuildDatabase(object):
         return oid
 
     def get_column_names(self, uuidstr):
-        oid = uuid.UUID(uuidstr)
+        oid = parse_uuid(uuidstr)
+        if not oid:
+            return None
         headerdata = self.db.get(b"signups/" + oid.bytes + b"/headers")
+        if not headerdata:
+            return []
         headers = headerdata.decode(self.encoding).split("\n")
         return headers
 
     def get_signup_column(self, oid, colid):
         key = b"signups/" + oid.bytes + b"/columns/" + bytes(colid, self.encoding)
         coldata = self.db.get(key)
+        if not coldata:
+            return []
         return coldata.decode(self.encoding).split("\n")
 
     def get_unique_roles(self, uuidstr, role_col):
-        oid = uuid.UUID(uuidstr)
+        oid = parse_uuid(uuidstr)
+        if not oid:
+            return None
         rolelist = self.get_signup_column(oid, role_col)
         return set([role.lower() for role in rolelist])
 
     def generate_csv(self, uuidstr, date_col, email_col, role_col, rolemap):
-        oid = uuid.UUID(uuidstr)
+        oid = parse_uuid(uuidstr)
+        if not oid:
+            return None
 
         dates = self.get_signup_column(oid, date_col)
         emails = self.get_signup_column(oid, email_col)
@@ -100,5 +118,7 @@ class NationAutoBuildDatabase(object):
                 bytes(buf.getvalue(), self.encoding))
 
     def get_csv(self, uuidstr):
-        oid = uuid.UUID(uuidstr)
+        oid = parse_uuid(uuidstr)
+        if not oid:
+            return None
         return self.db.get(b"signups/" + oid.bytes + b"/result")

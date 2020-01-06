@@ -21,6 +21,8 @@ def signup_columns(uuid):
     with get_connection() as db:
         form = SignupColumnSelectForm()
         colnames = db.get_column_names(uuid)
+        if not colnames:
+            return render_template("404.html"), 404
         form.assign_choices(colnames)
 
         if form.validate_on_submit():
@@ -41,6 +43,8 @@ def signup_roles(uuid):
 
     with get_connection() as db:
         roles = db.get_unique_roles(uuid, role_col)
+        if not roles:
+            return render_template("404.html"), 404
         form = SignupRoleAssignmentForm(
                 date_col=date_col,
                 email_col=email_col,
@@ -61,7 +65,13 @@ def signup_roles(uuid):
 def signup_download(uuid):
     with get_connection() as db:
         csvdata = db.get_csv(uuid)
+        if not csvdata:
+            return render_template("404.html"), 404
         response = make_response(csvdata)
         response.headers["Content-Type"] = "text/csv"
         response.headers["Content-Disposition"] = "attachment; filename=result.csv"
         return response
+
+@app.errorhandler(404)
+def page_not_found(err):
+    return render_template("404.html"), 404
