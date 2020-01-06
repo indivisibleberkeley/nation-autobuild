@@ -1,0 +1,4 @@
+{
+    "SECRET_KEY" : "Generate key and put it here",
+    "LEVELDB_NAME" : "./data"
+}
