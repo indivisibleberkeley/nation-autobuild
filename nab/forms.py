@@ -32,7 +32,7 @@ class SignupRoleAssignmentForm(FlaskForm):
     submit = SubmitField("Submit")
 
     def assign_choices(self, roles):
-        choices = [(role, role) for role in roles]
+        choices = [(role, role) for role in sorted(roles)]
         self.signin_roles.choices = choices
         self.delivery_roles.choices = choices
         self.snack_roles.choices = choices
