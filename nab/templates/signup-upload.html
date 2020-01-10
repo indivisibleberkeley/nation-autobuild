@@ -10,7 +10,7 @@
       {{ form.csvfile.label }}: <br/>
       {{ form.csvfile() }}<br/>
       {% for error in form.csvfile.errors %}
-        [{{ error }}]
+        <span class="error">[{{ error }}]</span>
       {% endfor %}
     </p>
     <p>{{ form.submit() }}</p>

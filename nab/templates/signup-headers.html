@@ -9,19 +9,19 @@
     {{ form.date_col.label }}: {{ form.date_col() }}
     </p>
     {% for error in form.date_col.errors %}
-      <p>[{{ error }}]</p>
+      <p><span class="error">[{{ error }}]</span></p>
     {% endfor %}
     <p>
     {{ form.email_col.label }}: {{ form.email_col() }}
     </p>
     {% for error in form.email_col.errors %}
-      <p>[{{ error }}]</p>
+      <p><span class="error">[{{ error }}]</span></p>
     {% endfor %}
     <p>
     {{ form.role_col.label }}: {{ form.role_col() }}
     </p>
     {% for error in form.role_col.errors %}
-      <p>[{{ error }}]</p>
+      <p><span class="error">[{{ error }}]</span></p>
     {% endfor %}
     <p>{{ form.submit() }}</p>
   </form>

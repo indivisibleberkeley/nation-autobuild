@@ -18,3 +18,8 @@ table, td {
   border-width: 1px;
   margin: auto;
 }
+
+.error {
+  color: red;
+  font-style: italic;
+}
