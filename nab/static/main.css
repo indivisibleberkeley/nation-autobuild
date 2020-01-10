@@ -1,0 +1,20 @@
+body {
+  margin: auto;
+  width: 750px;
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px;
+}
+
+table, td {
+  border-style: solid;
+  border-width: 1px;
+  margin: auto;
+}
