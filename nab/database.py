@@ -5,7 +5,9 @@ import csv
 import json
 import re
 from datetime import datetime
-from collections import defaultdict
+from collections import defaultdict, namedtuple
+
+SignupEntry = namedtuple("SignupEntry", ["email", "tag_list"])
 
 def get_connection():
     from nab import app
@@ -122,3 +124,15 @@ class NationAutoBuildDatabase(object):
         if not oid:
             return None
         return self.db.get(b"signups/" + oid.bytes + b"/result")
+
+    def get_csv_entries(self, uuidstr):
+        csvdata = self.get_csv(uuidstr)
+        if not csvdata:
+            return None
+
+        f = io.StringIO(csvdata.decode(self.encoding))
+        rdr = csv.reader(f)
+
+        for row in rdr:
+            yield SignupEntry(row[0], row[1].split(","))
+

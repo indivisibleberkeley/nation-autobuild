@@ -57,9 +57,19 @@ def signup_roles(uuid):
             role_col = form.role_col.data
             rolemap = form.gen_rolemap()
             db.generate_csv(uuid, date_col, email_col, role_col, rolemap)
-            return redirect("/signup/{}/download".format(uuid))
+            return redirect("/signup/{}/show".format(uuid))
 
         return render_template("signup-roles.html", form=form)
+
+@app.route("/signup/<uuid>/show")
+def signup_show(uuid):
+    with get_connection() as db:
+        entries = db.get_csv_entries(uuid)
+
+        if not entries:
+            return render_template("404.html"), 404
+
+        return render_template("signup-show.html", uuid=uuid, entries=entries)
 
 @app.route("/signup/<uuid>/download")
 def signup_download(uuid):
