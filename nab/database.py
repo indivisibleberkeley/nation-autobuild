@@ -102,7 +102,7 @@ class NationAutoBuildDatabase(object):
         for (date, email, role) in zip(dates, emails, roles):
             dateobj = date_from_string(date)
             category = rolemap.get(role.lower())
-            if category:
+            if email and category:
                 tag = dateobj.strftime(tag_template).format(category)
                 member_map[email].add(tag)
 
